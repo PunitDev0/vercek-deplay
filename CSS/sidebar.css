@@ -1,0 +1,49 @@
+.toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    right: 0%;
+}
+.Filter{
+    position: relative;
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+}
+.options{
+    padding: 0px 20px;
+}
+.hideitem {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+.hideitem li{
+    margin-left: 20px;
+}
+.max-h-96 {
+    max-height: 24rem; /* Adjust this height as needed */
+}
+.Filter{
+    max-width: 250px;
+}
+.list{
+    border: 1px solid #dadada;
+
+}
+.image{
+    height: 400px;
+    width: 250px;
+}
+.image img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+@media(max-width : 800px){
+    .Filter{
+        display: none;
+    }
+}

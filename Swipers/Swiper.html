@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Enhanced Swiper Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<body>
+    <!-- Swiper Container -->
+    <div class="swiper mySwiper1 relative">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide h-full w-full flex justify-center items-center text-lg bg-[#F3F3F3]">
+                <div class="flex flex-col gap-20 m-auto sm:flex-row items-center justify-center w-fit p-4 md:space-y-0 md:space-x-8">
+                    <!-- Image -->
+                    <div class="image h-[530px] transform translate-y-10 opacity-0"> 
+                        <img src="../Assests/image/Model1.png" alt="H-vault Classic" class="w-full h-full object-cover rounded-lg shadow-md" />
+                    </div>
+                    <!-- Content -->
+                    <div class="content text-center md:text-left transform translate-y-10 opacity-0">
+                        <a href="#" class="text-3xl md:text-5xl font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300">H-vault Classic</a>
+                        <p class="text-xl md:text-2xl font-semibold text-gray-700 mt-2"><strong>Offer 20% Off</strong></p>
+                        <p class="text-md md:text-xl text-gray-600 mt-1">Starting At $10.99</p>
+                        <a href="#" class="inline-block mt-4 py-2 px-6 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-all duration-300">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide h-full w-full flex justify-center items-center text-lg bg-[#F3F3F3]">
+                <div class="flex flex-col gap-20 m-auto sm:flex-row items-center justify-center w-fit p-4 md:space-y-0 md:space-x-8">
+                    <!-- Image -->
+                    <div class="image h-[530px] transform translate-y-10 opacity-0"> 
+                        <img src="../Assests/image/Model2.png" alt="H-vault Classic" class="w-full h-full max-w-xs md:max-w-sm lg:max-w-md object-contain rounded-lg shadow-md" />
+                    </div>
+                    <!-- Content -->
+                    <div class="content text-center md:text-left transform translate-y-10 opacity-0">
+                        <a href="#" class="text-3xl md:text-5xl font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300">H-vault Classic</a>
+                        <p class="text-xl md:text-2xl font-semibold text-gray-700 mt-2"><strong>Offer 20% Off</strong></p>
+                        <p class="text-md md:text-xl text-gray-600 mt-1">Starting At $10.99</p>
+                        <a href="#" class="inline-block mt-4 py-2 px-6 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-all duration-300">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide h-full w-full flex justify-center items-center text-lg bg-[#F3F3F3]">
+                <div class="flex flex-col gap-20 m-auto sm:flex-row items-center justify-center w-fit p-4 md:space-y-0 md:space-x-8">
+                    <!-- Image -->
+                    <div class="image h-[530px] transform translate-y-10 opacity-0"> 
+                        <img src="../Assests/image/Model3.png" alt="H-vault Classic" class="w-full h-full object-cover rounded-lg shadow-md" />
+                    </div>
+                    <!-- Content -->
+                    <div class="content text-center md:text-left transform translate-y-10 opacity-0">
+                        <a href="#" class="text-3xl md:text-5xl font-bold text-gray-800 hover:text-blue-600 transition-colors duration-300">H-vault Classic</a>
+                        <p class="text-xl md:text-2xl font-semibold text-gray-700 mt-2"><strong>Offer 20% Off</strong></p>
+                        <p class="text-md md:text-xl text-gray-600 mt-1">Starting At $10.99</p>
+                        <a href="#" class="inline-block mt-4 py-2 px-6 bg-blue-600 text-white rounded-md shadow-lg hover:bg-blue-700 transition-all duration-300">Shop Now</a>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+
+    <!-- Swiper Initialization -->
+    <script>
+        var swiper = new Swiper(".mySwiper1", {
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            effect: "fade",
+            fadeEffect: {
+                crossFade: true
+            },
+        });
+
+        // GSAP Animations for slide transitions
+        swiper.on('slideChangeTransitionStart', function () {
+            // Hide images and content when transitioning
+            gsap.set(".swiper-slide-active .image, .swiper-slide-active .content", { opacity: 0, y: 10 });
+        });
+
+        swiper.on('slideChangeTransitionEnd', function () {
+            // Fade-in and slide-up animations for images and content
+            gsap.to(".swiper-slide-active .image", { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+            gsap.to(".swiper-slide-active .content", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.1 });
+        });
+
+        // Initial animation on page load
+        window.addEventListener('load', () => {
+            gsap.set(".swiper-slide-active .image, .swiper-slide-active .content", { opacity: 0, y: 10 });
+            gsap.to(".swiper-slide-active .image", { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+            gsap.to(".swiper-slide-active .content", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.1 });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<?php
+  session_start();
+  include('../Pages/config.php');
+  if(true){
+?>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <script src="./assets/js/init-alpine.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
+    <!-- Desktop sidebar -->
+    <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
+      <div class="py-4 text-gray-500 dark:text-gray-400">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+          Store
+        </a>
+        <ul class="mt-6">
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="index.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                </path>
+              </svg>
+              <span class="ml-4">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+        <ul>
+          <li class="relative px-6 py-3">
+            <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+              aria-hidden="true"></span>
+            <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+              href="forms.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                </path>
+              </svg>
+              <span class="ml-4">Forms</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="productdetails.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                </path>
+              </svg>
+              <span class="ml-4">Cards</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="charts.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+              </svg>
+              <span class="ml-4">Charts</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="buttons.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122">
+                </path>
+              </svg>
+              <span class="ml-4">Buttons</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="modals.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                </path>
+              </svg>
+              <span class="ml-4">Modals</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="tables.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+              </svg>
+              <span class="ml-4">Tables</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <button
+              class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              @click="togglePagesMenu" aria-haspopup="true">
+              <span class="inline-flex items-center">
+                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                  </path>
+                </svg>
+                <span class="ml-4">Pages</span>
+              </span>
+              <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <template x-if="isPagesMenuOpen">
+              <ul x-transition:enter="transition-all ease-in-out duration-300"
+                x-transition:enter-start="opacity-25 max-h-0" x-transition:enter-end="opacity-100 max-h-xl"
+                x-transition:leave="transition-all ease-in-out duration-300"
+                x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0"
+                class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                aria-label="submenu">
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/login.php">Login</a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/create-account.php">
+                    Create account
+                  </a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/forgot-password.php">
+                    Forgot password
+                  </a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/404.php">404</a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/blank.php">Blank</a>
+                </li>
+              </ul>
+            </template>
+          </li>
+        </ul>
+        <div class="px-6 my-6">
+          <button
+            class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            Create account
+            <span class="ml-2" aria-hidden="true">+</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <!-- Mobile sidebar -->
+    <!-- Backdrop -->
+    <div x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
+      x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"></div>
+    <aside class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
+      x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
+      x-transition:enter-start="opacity-0 transform -translate-x-20" x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0 transform -translate-x-20" @click.away="closeSideMenu"
+      @keydown.escape="closeSideMenu">
+      <div class="py-4 text-gray-500 dark:text-gray-400">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+          Windmill
+        </a>
+        <ul class="mt-6">
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="index.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                </path>
+              </svg>
+              <span class="ml-4">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+        <ul>
+          <li class="relative px-6 py-3">
+            <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+              aria-hidden="true"></span>
+            <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+              href="forms.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                </path>
+              </svg>
+              <span class="ml-4">Forms</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="productdetails.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                </path>
+              </svg>
+              <span class="ml-4">Cards</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="charts.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+              </svg>
+              <span class="ml-4">Charts</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="buttons.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122">
+                </path>
+              </svg>
+              <span class="ml-4">Buttons</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="modals.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                </path>
+              </svg>
+              <span class="ml-4">Modals</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              href="tables.php">
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+              </svg>
+              <span class="ml-4">Tables</span>
+            </a>
+          </li>
+          <li class="relative px-6 py-3">
+            <button
+              class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              @click="togglePagesMenu" aria-haspopup="true">
+              <span class="inline-flex items-center">
+                <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                  </path>
+                </svg>
+                <span class="ml-4">Pages</span>
+              </span>
+              <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <template x-if="isPagesMenuOpen">
+              <ul x-transition:enter="transition-all ease-in-out duration-300"
+                x-transition:enter-start="opacity-25 max-h-0" x-transition:enter-end="opacity-100 max-h-xl"
+                x-transition:leave="transition-all ease-in-out duration-300"
+                x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0"
+                class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                aria-label="submenu">
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/login.php">Login</a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/create-account.php">
+                    Create account
+                  </a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/forgot-password.php">
+                    Forgot password
+                  </a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/404.php">404</a>
+                </li>
+                <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                  <a class="w-full" href="pages/blank.php">Blank</a>
+                </li>
+              </ul>
+            </template>
+          </li>
+        </ul>
+        <div class="px-6 my-6">
+          <button
+            class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            Create account
+            <span class="ml-2" aria-hidden="true">+</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="flex flex-col flex-1">
+      <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+        <div
+          class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+          <!-- Mobile hamburger -->
+          <button class="p-1 -ml-1 mr-5 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+            @click="toggleSideMenu" aria-label="Menu">
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          <!-- Search input -->
+          <div class="flex justify-center flex-1 lg:mr-32">
+            <div class="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+              <div class="absolute inset-y-0 flex items-center pl-2">
+                <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <input
+                class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+                type="text" placeholder="Search for projects" aria-label="Search" />
+            </div>
+          </div>
+          <ul class="flex items-center flex-shrink-0 space-x-6">
+            <!-- Theme toggler -->
+            <li class="flex">
+              <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleTheme"
+                aria-label="Toggle color mode">
+                <template x-if="!dark">
+                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                  </svg>
+                </template>
+                <template x-if="dark">
+                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </template>
+              </button>
+            </li>
+            <!-- Notifications menu -->
+            <li class="relative">
+              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+                @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu" aria-label="Notifications"
+                aria-haspopup="true">
+                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                  </path>
+                </svg>
+                <!-- Notification badge -->
+                <span aria-hidden="true"
+                  class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
+              </button>
+              <template x-if="isNotificationsMenuOpen">
+                <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0" @click.away="closeNotificationsMenu"
+                  @keydown.escape="closeNotificationsMenu"
+                  class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700"
+                  aria-label="submenu">
+                  <li class="flex">
+                    <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                      href="#">
+                      <span>Messages</span>
+                      <span
+                        class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
+                        13
+                      </span>
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                      href="#">
+                      <span>Sales</span>
+                      <span
+                        class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
+                        2
+                      </span>
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                      href="#">
+                      <span>Alerts</span>
+                    </a>
+                  </li>
+                </ul>
+              </template>
+            </li>
+            <!-- Profile menu -->
+            <li class="relative">
+              <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+                @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
+                <img class="object-cover w-8 h-8 rounded-full"
+                  src=".  "
+                  alt="" aria-hidden="true" />
+              </button>
+              <template x-if="isProfileMenuOpen">
+                <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
+                  class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                  aria-label="submenu">
+                  <li class="flex">
+                    <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                      href="#">
+                      <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      </svg>
+                      <span>Profile</span>
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                      href="#">
+                      <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                        </path>
+                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      </svg>
+                      <span>Settings</span>
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                      href="#">
+                      <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                          d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                        </path>
+                      </svg>
+                      <span>Log out</span>
+                    </a>
+                  </li>
+                </ul>
+              </template>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <main class="h-full pb-16 overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+          <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            Product Upload Here
+          </h2>
+          <!-- General elements -->
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Product Name</span>
+                <input
+                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="Product Name" name="productName" />
+              </label>
+
+              <div class="mt-4 text-sm">
+                <span class="text-gray-700 dark:text-gray-400">
+                  Gender
+                </span>
+                <div class="mt-2">
+                  <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
+                    <input type="radio"
+                      class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                      name="gender" value="M" checked/>
+                    <span class="ml-2">Male</span>
+                  </label>
+                  <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
+                    <input type="radio"
+                      class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                      name="gender" value="F" />
+                    <span class="ml-2">Female</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-start">
+                <label class="block mt-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">
+                    Product Category
+                  </span>
+                  <select
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                    name="catg" id="Select_item">
+                    <option>--Select-Your-Category--</option>
+                    <option value="1">T-Shirt's</option>
+                    <option value="2">Watch</option>
+                    <option value="3">Shoe</option>
+                    <option value="4">Belt</option>
+                    <option value="5">Accessories</option>  
+                    <option value="6">Other</option>
+                  </select>
+                </label>
+                <label class="block mt-4 ml-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">Product Price</span>
+                  <input type="number"
+                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                    placeholder="Product Price" name="price" />
+                </label>
+              </div>
+              
+        <!-- Size and quntity form here  -->
+
+                <div class="hidden max-w-lg mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg " id="Size_quanity">
+                  <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6 text-center">Select Shoe Sizes and Quantities</h2>
+                  
+                  <div class="flex flex-col space-y-4" id="Shoe_Size">
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size 6</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="6" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[6]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size 7</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="7" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[7]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size 8</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="8" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[8]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size 9</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="9" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[9]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size 10</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="10" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[10]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+                  </div> 
+                </div>
+
+            <!-- T-shirts - size - and - quantity -->
+
+
+                <div class="hidden max-w-lg mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg " id="Tshirt_Size_quanity">
+                  <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6 text-center">Select Shoe Sizes and Quantities</h2>
+                  
+                  <div class="flex flex-col space-y-4" id="Shoe_Size">
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size M</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="M" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[M]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size L</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[]" value="L" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[L]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                      <label class="text-lg font-medium text-gray-700 dark:text-gray-400">Size XL</label>
+                      <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="size[XL]" value="XL" class="w-6 h-6 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <input type="number" name="quantity[8]" placeholder="Quantity" class="w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      </div>
+                    </div>
+                    
+                  </div> 
+                </div>
+
+              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
+                <label
+                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture</label>
+                <input id="picture" type="file"
+                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="product_img" accept="image/png, image/jpeg">
+              </div>
+              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
+                <label
+                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Description_Picture (1-5)</label>
+                <input id="picture" type="file"
+                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="Description_img[]" accept="image/png, image/jpeg" multiple require>
+              </div>
+              <label class="block mt-4 text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Product Description</span>
+                <textarea
+                  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  rows="3" placeholder="Enter some long form content." name="product_description"></textarea>
+              </label>
+              <div class="flex mt-6 text-sm">
+                <input type="submit"
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="sub">
+              </div>
+            </div>
+          </form>
+          <!-- Related -->
+          <?php
+if (isset($_POST['sub'])) {
+    include '../Pages/config.php';
+
+    // Escaping special characters in the inputs
+    $pname = mysqli_real_escape_string($product_info, $_POST['productName']);
+    $gender = mysqli_real_escape_string($product_info, $_POST['gender']);
+    $price = (float)$_POST['price']; // Assuming price is a number, casting to float for safety
+    $catg = mysqli_real_escape_string($product_info, $_POST['catg']);
+    $product_details = mysqli_real_escape_string($product_info, nl2br($_POST['product_description']));
+
+    $sizes_and_quantity = [];
+
+    if (isset($_POST['size']) && isset($_POST['quantity'])) {
+        foreach ($_POST['size'] as $size) {
+            $quantity = isset($_POST['quantity'][$size]) ? $_POST['quantity'][$size] : 0;
+            $sizes_and_quantity[$size] = $quantity;
+        }
+    }
+
+    $Description_img_names = [];
+
+    if (isset($_FILES['Description_img']['tmp_name'])) {
+        $upload_dir = '../images/Description_images/';
+
+        foreach ($_FILES['Description_img']['tmp_name'] as $key => $Des_tmp_name) {
+            $des_file_name = basename($_FILES['Description_img']['name'][$key]);
+            $des_target_file = $upload_dir . $des_file_name;
+
+            if (move_uploaded_file($Des_tmp_name, $des_target_file)) {
+                $Description_img_names[] = $des_file_name;
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+    $Description_img_names_json = json_encode($Description_img_names);
+    $escaped_json = mysqli_real_escape_string($product_info, $Description_img_names_json);
+
+    $sizes_and_quantity_json = json_encode($sizes_and_quantity);
+    $escaped_sizes_and_quantity_json = mysqli_real_escape_string($product_info, $sizes_and_quantity_json);
+
+    if (isset($_FILES['product_img'])) {
+        $directory = "../image/product/";
+        $product_img = basename($_FILES['product_img']['name']);
+        $temp_name = $_FILES['product_img']['tmp_name'];
+        $already_exist = $directory . $product_img;
+
+        if (!file_exists($already_exist)) {
+            if (move_uploaded_file($temp_name, "../Images/product_images/$product_img")) {
+                ?>
+                <script>
+                    $(document).ready(function () {
+                        Swal.fire({
+                            title: "Data or file has been uploaded",
+                            html: "<font color='white'> Check this out and upload the related pictures of product</font>",
+                            icon: "success",
+                            showCloseButton: true,
+                            confirmButtonText: `Okay!`,
+                        });
+                    });
+                </script>
+                        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <label class="block mt-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">
+                    Product Related Image
+                  </span>
+                  <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400"></span>
+                <?php
+                  $pro = mysqli_query($product_info, "SELECT * FROM product_item ORDER BY product_id DESC LIMIT 1");
+                  if($exe = mysqli_fetch_assoc($pro)){
+                ?>
+                <input
+                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="Product Name" value="<?php echo $exe['product_id']?>" name="update_catg" realonly/>
+                  <?php
+                  }
+                  ?>
+              </label>
+                </label>
+              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
+                <label
+                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 1</label>
+                <input id="picture" type="file"
+                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="images[]" accept="image/png, image/jpeg" multiple require>
+              </div>
+              <div class="flex mt-6 text-sm">
+                <input type="submit"
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="update" >
+              </div>
+            </div>
+            
+          </form>
+      <?php
+      }
+      else {
+        ?>
+        <script>
+          $(document).ready(function () {
+            Swal.fire({
+              title: "File or Data Already uploaded",
+              html: "<font color='white'> Please Upload the another file or data !</font>",
+              icon: "warning",
+              showCloseButton: true,
+              confirmButtonText: `Okay!`, 
+              
+            })
+          })
+          </script>
+        <?php
+      }
+?>
+
+                <?php
+                mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 0");
+                $query = "INSERT INTO product_item (product_name, product_image, product_price, product_gender, product_details, product_catg, size_quantity, Description_images) VALUES ('$pname', '$product_img', $price, '$gender', '$product_details', '$catg', '$escaped_sizes_and_quantity_json', '$escaped_json')";
+
+                if ($product_query = mysqli_query($product_info, $query)) {
+                    echo "Product added successfully";
+                } else {
+                    echo "Error: " . mysqli_error($product_info);
+                }
+            }
+        }
+    }
+}
+?>
+
+
+  
+  <?php
+    if(isset($_POST['update'])){
+      include '../Pages/config.php';
+
+      $product_related = $_POST['update_catg'];
+
+      mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 0");
+      $a = mysqli_query( $product_info,"UPDATE IGNORE product_item SET pr_img  = $product_related WHERE product_id=$product_related"); 
+      mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 1");
+
+      $images_names =  [];
+
+      if(isset($_FILES['images']['tmp_name'])){
+
+        $upload_dir = '../images/Product_images/RF_images/';  
+
+        foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+          $file_name = basename($_FILES['images']['name'][$key]);
+          $target_file = $upload_dir . $file_name;
+          echo $target_file;
+
+          if (move_uploaded_file($tmp_name, $target_file)) {
+            $images_names[] = $file_name;
+            // echo $file_name;;
+          } else {
+            echo "Sorry, there was an error uploading your file.";
+          }
+        }
+      }
+      if (!empty($images_names)) {
+        $json_images = json_encode($images_names);
+            $query_img = "INSERT INTO product_images (pr_id, pr_img) VALUES ($product_related, ' $json_images')";
+            if (!mysqli_query($product_info, $query_img)) {
+                echo "Error inserting image: " . mysqli_error($product_info);
+            }
+      }
+        ?>
+        <script>
+          $(document).ready(function () {
+            Swal.fire({
+                  title: "Related image uplaoded",
+                  html: "<font color='white'> WOW !</font>",
+                  icon: "success",
+                  showCloseButton: true,
+                  confirmButtonText: `Okay!`, 
+
+              })
+          })
+        </script>
+      <?php
+      }
+
+  ?>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+  <script src="../JS/Forms.js"></script>
+</body>
+</html>

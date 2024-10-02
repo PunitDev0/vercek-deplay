@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Responsive Filter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* Animation for sliding filter up from the bottom */
+        .slide-up {
+            animation: slideUp 0.4s ease-out forwards;
+        }
+
+        .slide-down {
+            animation: slideDown 0.4s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(100%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            display: none;
+        }
+
+        /* Improve button hover effects */
+        button:hover {
+            background-color: #f97316;
+            color: white;
+        }
+
+        /* Highlight the selected color ball */
+        .selected {
+            border: 2px solid #f97316;
+        }
+        #color-container {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        #color-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 z-50">
+
+    <!-- Sort By and Filter Buttons at the Bottom for Small Screens -->
+    <div class="fixed inset-x-0 bottom-0 bg-white shadow-md p-3 flex justify-between md:hidden">
+        <button id="sort-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 p-3 rounded-lg w-1/2 mr-2">Sort By</button>
+        <button id="filter-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 p-3 rounded-lg w-1/2">Filter</button>
+    </div>
+
+    <!-- Overlay for Modal Background -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Sort By Modal (Hidden Initially) -->
+    <div id="sort-modal" class="fixed inset-x-0 bottom-0 bg-white p-5 shadow-lg z-50 hidden rounded-t-xl">
+        <h2 class="text-lg font-semibold mb-4">Sort By</h2>
+        <ul>
+            <li><button class="w-full text-left p-2 border-b hover:bg-gray-100">Relevance</button></li>
+            <li><button class="w-full text-left p-2 border-b hover:bg-gray-100">Price: Low to High</button></li>
+            <li><button class="w-full text-left p-2 hover:bg-gray-100">Price: High to Low</button></li>
+        </ul>
+        <button id="sort-close" class="bg-red-500 hover:bg-red-600 text-white w-full mt-4 p-2 rounded-lg">Close</button>
+    </div>
+
+    <!-- Filter Modal (Hidden Initially) -->
+    <div id="filter-modal" class="fixed inset-x-0 bottom-0 bg-white p-5 shadow-lg z-50 hidden rounded-t-xl">
+        <h2 class="text-lg font-semibold mb-4"><i class='bx bx-filter-alt'></i></h2>
+
+        <!-- Price Range Filter -->
+        <div class="mb-4">
+            <label for="price" class="block mb-2">Price Range</label>
+            <div class="flex items-center">
+                <span id="min-price" class="mr-4 text-gray-700">$0</span>
+                <input type="range" id="price" min="0" max="1000" value="500" class="w-full">
+                <span id="max-price" class="ml-4 text-gray-700">$1000</span>
+            </div>
+            <p class="mt-2">Selected Range: <span id="price-display" class="font-semibold">$500</span></p>
+        </div>
+
+        <!-- Brand Filter -->
+        <div class="mb-4">
+            <label for="brand" class="block mb-2">Brand</label>
+            <select id="brand" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>All Brands</option>
+                <option>Brand 1</option>
+                <option>Brand 2</option>
+                <option>Brand 3</option>
+            </select>
+        </div>
+
+        <!-- Color Filter -->
+        <div class="mb-4 overflow-auto">
+            <label for="color" class="block mb-2">Color</label>
+            <!-- Scrollable container for color balls -->
+            <div id="color-container" class="flex overflow-auto w-full space-x-2 p-1 border rounded-lg" style="white-space: nowrap;"></div>
+        </div>
+
+        <!-- Additional Filter: Size (Example) -->
+        <div class="mb-4">
+            <label for="size" class="block mb-2">Size</label>
+            <select id="size" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>All Sizes</option>
+                <option>Small</option>
+                <option>Medium</option>
+                <option>Large</option>
+                <option>X-Large</option>
+            </select>
+        </div>
+
+        <button id="filter-close" class="bg-red-500 hover:bg-red-600 text-white w-full mt-4 p-2 rounded-lg">Close</button>
+    </div>
+
+    <script>
+        const sortBtn = document.getElementById('sort-btn');
+        const filterBtn = document.getElementById('filter-btn');
+        const sortModal = document.getElementById('sort-modal');
+        const filterModal = document.getElementById('filter-modal');
+        const sortClose = document.getElementById('sort-close');
+        const filterClose = document.getElementById('filter-close');
+        const overlay = document.getElementById('overlay');
+
+        const priceInput = document.getElementById('price');
+        const priceDisplay = document.getElementById('price-display');
+        const colorContainer = document.getElementById('color-container');
+
+        // Colors Array with HEX Values
+        const colors = [
+            { name: 'Red', hex: '#f87171' },
+            { name: 'Blue', hex: '#60a5fa' },
+            { name: 'Green', hex: '#34d399' },
+            { name: 'Black', hex: '#000000' },
+            { name: 'Yellow', hex: '#fbbf24' },
+            { name: 'Purple', hex: '#a78bfa' },
+            { name: 'Pink', hex: '#f472b6' },
+            { name: 'Gray', hex: '#9ca3af' },
+            { name: 'White', hex: '#ffffff' },
+            { name: 'Orange', hex: '#fb923c' },
+            { name: 'Brown', hex: '#a16207' }
+        ];
+
+        let selectedColor = '';
+
+        // Display the Color Circles Dynamically
+        function displayColors() {
+            colorContainer.innerHTML = '';
+            colors.forEach(color => {
+                const colorCircle = document.createElement('div');
+                colorCircle.className = 'color-circle';
+                colorCircle.style.backgroundColor = color.hex;
+                colorCircle.setAttribute('data-color', color.name);
+
+                colorCircle.addEventListener('click', function () {
+                    // Remove the 'selected' class from all other circles
+                    document.querySelectorAll('.color-circle').forEach(circle => {
+                        circle.classList.remove('selected');
+                    });
+                    // Add 'selected' class to the clicked circle
+                    colorCircle.classList.add('selected');
+                    selectedColor = color.name;
+                    console.log('Selected color:', selectedColor); // You can use this for form submission or filtering logic
+                });
+
+                colorContainer.appendChild(colorCircle);
+            });
+        }
+
+        // Initialize the color display
+        displayColors();
+
+        // Display selected price in filter modal
+        priceInput.addEventListener('input', function () {
+            priceDisplay.textContent = `$${priceInput.value}`;
+        });
+
+        function closeModals() {
+            if (sortModal.classList.contains('slide-up')) {
+                sortModal.classList.add('slide-down');
+                setTimeout(() => {
+                    sortModal.classList.add('hidden');
+                    sortModal.classList.remove('slide-down');
+                }, 400);
+            }
+            if (filterModal.classList.contains('slide-up')) {
+                filterModal.classList.add('slide-down');
+                setTimeout(() => {
+                    filterModal.classList.add('hidden');
+                    filterModal.classList.remove('slide-down');
+                }, 400);
+            }
+            overlay.style.display = 'none';
+        }
+
+        // Sort Modal Toggle
+        sortBtn.addEventListener('click', function () {
+            sortModal.classList.remove('hidden');
+            sortModal.classList.add('slide-up');
+            overlay.style.display = 'block';
+        });
+
+        // Filter Modal Toggle
+        filterBtn.addEventListener('click', function () {
+            filterModal.classList.remove('hidden');
+            filterModal.classList.add('slide-up');
+            overlay.style.display = 'block';
+        });
+
+        // Close Modals
+        sortClose.addEventListener('click', closeModals);
+        filterClose.addEventListener('click', closeModals);
+        overlay.addEventListener('click', closeModals);
+    </script>
+</body>
+
+</html>
