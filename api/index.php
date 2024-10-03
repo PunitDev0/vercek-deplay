@@ -22,5 +22,5 @@ if (preg_match('/^\/admin/', $requestUri)) {
     }
 } else {
     // Default to your main page or a 404 page
-    include(__DIR__ . '/../pages/home.php'); // Change this to your main page
+    include(__DIR__ . '/../Pages/Home.php'); // Change this to your main page
 }
